@@ -1,5 +1,5 @@
 <?php
-
+ use Scriptotek\GoogleBooks\GoogleBooks;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -12,8 +12,16 @@
 */
 
 Route::get('/test', function () {
-    return view('welcome');
+$books = new GoogleBooks();
+dd($books->volumes->search('php'));
 });
-Route::get('/', function () {
-    return view('welcome');
-});
+
+
+Auth::routes();
+
+Route::get('/', 'BookController@index')->name('books.index');
+Route::get('books/{id}', 'BookController@show')->name('books.show');
+Route::get('mybooks', 'BookController@mybooks')->name('mybooks');
+
+Route::post('like', 'likeController@like');
+Route::post('unlike', 'likeController@unlike');

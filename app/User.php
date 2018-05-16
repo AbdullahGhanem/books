@@ -26,4 +26,18 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    protected $appends = [
+        'my_books'
+    ];
+
+    public function likes()
+    {
+        return $this->HasMany(Like::class);
+    }
+
+    public function getMyBooksAttribute()
+    {
+        return $this->likes->pluck('book_id')->toArray();
+    }
 }
